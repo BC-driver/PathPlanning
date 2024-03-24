@@ -29,3 +29,12 @@ class Envrionment:
         for i in range(ltx, rbx + 1):
             for j in range(lty, rby + 1):
                 self.env[i][j] = 1;
+
+    def setPath(self, pos):
+        self.env[pos[0]][pos[1]] = 2
+
+    def setStart(self, pos):
+        self.env[pos[0]][pos[1]] = 4
+
+    def setEnd(self, pos):
+        self.env[pos[0]][pos[1]] = 5
