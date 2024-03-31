@@ -25,6 +25,7 @@ class Dijkstra:
         self.width = self.env.getSize()[1]
         self.graph = [[node(i, j) for j in range(self.width)] for i in range(self.height)]
         self.q = []
+        self.opcnt = 0
 
     def disCal(self, nodea, nodeb):
         if self.env.env[nodea.pos[0]][nodea.pos[1]] == 1 or self.env.env[nodeb.pos[0]][nodeb.pos[1]] == 1:
@@ -56,6 +57,7 @@ class Dijkstra:
                     if nxtnode.dis > curnode.dis + self.disCal(curnode, nxtnode):
                         nxtnode.dis = curnode.dis + self.disCal(curnode, nxtnode)
                         nxtnode.pre = self.preCal(curnode, nxtnode)
+                        self.opcnt += 1
                         heapq.heappush(self.q, nxtnode)
 
         curnode = self.graph[self.end[0]][self.end[1]]
@@ -64,12 +66,13 @@ class Dijkstra:
             curnode = self.graph[curnode.pos[0] + (curnode.pre // 3) - 1][curnode.pos[1] + (curnode.pre % 3) - 1]
         self.env.setStart(self.start)
         self.env.setEnd(self.end)
+        print(f"Operation count:{self.opcnt}")
 
 
 
 
 def main():
-    mymap = Envrionment.Envrionment(10, 10)
+    mymap = Envrionment.envOne()
     mymap.showenv()
     print()
     model = Dijkstra((0, 0), (9, 9), mymap)

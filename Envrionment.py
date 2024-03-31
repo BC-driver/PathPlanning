@@ -5,14 +5,6 @@ class Envrionment:
         self.height = height
         self.env = [[0 for i in range(width)] for i in range(height)]
 
-        self.setObs(0, 4, 1, 4)
-        self.setObs(3, 0, 4, 4)
-        self.setObs(2, 6, 5, 7)
-        self.setObs(7, 2, 7, 3)
-        self.setObs(6, 4, 7, 5)
-        self.setObs(7, 7, 8, 8)
-
-
     def getEnv(self, x, y):
         return self.env[x][y]
 
@@ -38,3 +30,18 @@ class Envrionment:
 
     def setEnd(self, pos):
         self.env[pos[0]][pos[1]] = 5
+
+def emptyEnv(width, height):
+    env = Envrionment(width, height)
+    return env
+
+def envOne():
+    env = Envrionment(10, 10)
+    env.setObs(0, 4, 1, 4)
+    env.setObs(3, 0, 4, 4)
+    env.setObs(2, 6, 5, 7)
+    env.setObs(7, 2, 7, 3)
+    env.setObs(6, 4, 7, 5)
+    env.setObs(7, 7, 8, 8)
+    env.setObs(6, 6, 6, 6)
+    return env
