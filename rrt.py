@@ -197,15 +197,12 @@ class RRTStarSmart():
         mincost = self.env.getWidth() ** 2 + self.env.getHeight() ** 2
         minnode = self.T[0]
         minidx = -1
-        #print(xrand.pos)
         for i in range(len(self.T)):
             node = self.T[i]
             if self.disCal(xrand, node) < mincost:
-                #print(mincost, minnode.pos, end="")
                 mincost = self.disCal(xrand, node)
                 minnode = node
                 minidx = i
-                #print(mincost, minnode.pos)
         return minnode, minidx
 
     def getForwardpoint(self, xnear, xrand):
