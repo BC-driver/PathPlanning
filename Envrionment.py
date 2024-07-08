@@ -57,13 +57,16 @@ class ContiEnvironment():
     def showPath(self, path):
         fig = plt.figure(figsize=(self.width, self.height))
         axes = fig.add_subplot(1, 1, 1)
+        plt.axis('scaled')
+        axes.set_xlim(0, self.width)
+        axes.set_ylim(0, self.height)
 
         axes.add_patch(plt.Rectangle(xy=path[0], width=1, height=1, color="black"))
         axes.add_patch(plt.Rectangle(xy=path[-1], width=1, height=1, color="red"))
 
         cur = path[0]
         for point in path[1:]:
-            plt.plot([cur[0], point[0]], [cur[1], point[1]], color="green")
+            axes.plot([cur[0], point[0]], [cur[1], point[1]], color="green")
             cur = point
 
         for rect in self.obstacleRect:
