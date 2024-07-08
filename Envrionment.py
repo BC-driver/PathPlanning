@@ -55,10 +55,19 @@ class ContiEnvironment():
         self.obstacleRect = []
 
     def showPath(self, path):
+        fig = plt.figure(figsize=(self.width, self.height))
+        axes = fig.add_subplot(1, 1, 1)
+
+        axes.add_patch(plt.Rectangle(xy=path[0], width=1, height=1, color="black"))
+        axes.add_patch(plt.Rectangle(xy=path[-1], width=1, height=1, color="red"))
+
         cur = path[0]
         for point in path[1:]:
             plt.plot([cur[0], point[0]], [cur[1], point[1]], color="green")
             cur = point
+
+        for rect in self.obstacleRect:
+            axes.add_patch(plt.Rectangle(xy=rect[0], width=rect[1][0] - rect[0][0], height=rect[1][1] - rect[0][1]))
         plt.show()
 
     def getHeight(self):
@@ -74,8 +83,12 @@ class ContiEnvironment():
         return a[0] * b[1] - a[1] * b[0]
 
     def isNoLineCollision(self, a, b, c, d):
-        m = self.outProduct(a, c)
-        n = self.outProduct(a, d)
+        vecAB = (b[0] - a[0], b[1] - a[1])
+        vecAC = (c[0] - a[0], c[1] - a[1])
+        vecAD = (d[0] - a[0], d[1] - a[1])
+        m = self.outProduct(vecAB, vecAC)
+        n = self.outProduct(vecAB, vecAD)
+        #print(a, b, c, d, m, n)
         if m == 0 and n == 0:
             if max(a[0], b[0]) < min(c[0], d[0]) or \
                 max(a[1], b[1]) < min(c[1], d[1]) or \

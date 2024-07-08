@@ -69,7 +69,7 @@ class RRT():
             xrand = self.getRandomPoint()
             xnear, idx = self.getNearestPoint(xrand)
             xnew = self.getForwardpoint(xnear, xrand)
-            if self.env.isNoCollision(xnear, xnew):
+            if self.env.isNoCollision(xnear.pos, xnew.pos):
                 self.T.append(xnew)
                 xnew.setPre(idx)
             if self.isTouchingEnd(xnew):
@@ -77,6 +77,8 @@ class RRT():
                 self.T[-1].setPre(len(self.T)-2)
                 path = self.makePath(self.T[-1])
                 break
+        if len(path) == 0:
+            print("path not found.")
         return path
 
 if __name__ == "__main__":
@@ -85,6 +87,8 @@ if __name__ == "__main__":
     start = (1, 1)
     end = (69, 76)
     env = ContiEnvironment(width, height)
+    env.addRect((30, 30), (60, 70))
+    env.addRect((10, 10), (20, 30))
     pathFinder = RRT(env, start, end)
-    path = pathFinder.findPath(5000)
+    path = pathFinder.findPath(10000)
     env.showPath(path)
