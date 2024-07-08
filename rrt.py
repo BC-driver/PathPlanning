@@ -170,7 +170,7 @@ class RRTStar():
             return [self.start.pos], -1
         return path, cnt
 
-class RRTStar():
+class RRTStarSmart():
     def __init__(self, env, start, end, p):
         self.env = env
         self.start = Node(start)
