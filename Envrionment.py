@@ -54,20 +54,21 @@ class ContiEnvironment():
         self.height = height
         self.obstacleRect = []
 
-    def showPath(self, path):
+    def showPath(self, paths):
         fig = plt.figure(figsize=(self.width, self.height))
         axes = fig.add_subplot(1, 1, 1)
         plt.axis('scaled')
         axes.set_xlim(0, self.width)
         axes.set_ylim(0, self.height)
 
-        axes.add_patch(plt.Rectangle(xy=path[0], width=1, height=1, color="black"))
-        axes.add_patch(plt.Rectangle(xy=path[-1], width=1, height=1, color="red"))
+        for path in paths:
+            axes.add_patch(plt.Rectangle(xy=path[0], width=1, height=1, color="black"))
+            axes.add_patch(plt.Rectangle(xy=path[-1], width=1, height=1, color="red"))
 
-        cur = path[0]
-        for point in path[1:]:
-            axes.plot([cur[0], point[0]], [cur[1], point[1]], color="green")
-            cur = point
+            cur = path[0]
+            for point in path[1:]:
+                axes.plot([cur[0], point[0]], [cur[1], point[1]], color="green")
+                cur = point
 
         for rect in self.obstacleRect:
             axes.add_patch(plt.Rectangle(xy=rect[0], width=rect[1][0] - rect[0][0], height=rect[1][1] - rect[0][1]))
@@ -115,5 +116,6 @@ class ContiEnvironment():
 
 if __name__ == "__main__":
     env = ContiEnvironment(100, 100)
-    env.addRect((1, 1), (5, 5))
-    print(env.isNoCollision((0, 1), (6, 1)))
+    env.addRect((30, 30), (60, 70))
+    env.addRect((10, 10), (20, 30))
+    print(env.isNoCollision((69, 76), (58.951483097571234, 26.318148199977614)))

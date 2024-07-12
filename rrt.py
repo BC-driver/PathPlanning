@@ -87,7 +87,7 @@ class RRT():
             return [self.start.pos], -1
         return path, cnt
 
-class RRTStar():
+class RRTP():
     def __init__(self, env, start, end, p):
         self.env = env
         self.start = Node(start)
@@ -170,7 +170,7 @@ class RRTStar():
             return [self.start.pos], -1
         return path, cnt
 
-class RRTStarSmart():
+class RRTPSmart():
     def __init__(self, env, start, end, p):
         self.env = env
         self.start = Node(start)
@@ -217,6 +217,19 @@ class RRTStarSmart():
         return False
 
     def makePath(self, cur):
+        path = [cur.pos]
+        nxt = self.T[cur.pre]
+        while nxt.pre != nxt.pos:
+            if env.isNoCollision(cur.pos, self.T[nxt.pre].pos):
+                nxt = self.T[nxt.pre]
+            else:
+                path.append(nxt.pos)
+                cur = nxt
+                nxt = self.T[cur.pre]
+        path.append(nxt.pos)
+        return path[::-1]
+
+    def makePathTraditional(self, cur):
         path = []
         while cur.pre != cur.pos:
             path.append(cur.pos)
@@ -244,32 +257,28 @@ class RRTStarSmart():
                 self.T.append(self.end)
                 self.T[-1].setPre(xnewidx)
                 path = self.makePath(self.T[-1])
+                pathTra = self.makePathTraditional(self.T[-1])
+                print("Stage1 OK")
                 break
         if len(path) == 0:
             print("path not found.")
             return [self.start.pos], -1
-        return path, cnt
+        return path, pathTra, cnt
 
 if __name__ == "__main__":
     width = 100
     height = 100
     start = (1, 1)
-    end = (69, 76)
+    end = (99, 99)
     env = ContiEnvironment(width, height)
-    env.addRect((30, 30), (60, 70))
-    env.addRect((10, 10), (20, 30))
-    rrtCost = []
-    rrtStartCost = []
-    for i in range(20):
-        pathFinder = RRT(env, start, end)
-        pathFinder2 = RRTStar(env, start, end, 0.3)
-        path, cost = pathFinder.findPath(10000)
-        if cost != -1:
-            rrtCost.append(cost)
-        path2, cost = pathFinder2.findPath(10000)
-        if cost != -1:
-            rrtStartCost.append(cost)
-    print(rrtCost, sum(rrtCost) / len(rrtCost))
-    print(rrtStartCost, sum(rrtStartCost) / len(rrtStartCost))
+    for i in range(10):
+        lb = (R.random() * 70, R.random() * 70)
+        rt = (lb[0] + R.random() * 25, lb[1] + R.random() * 25)
+        env.addRect(lb, rt)
+
+    pathFinder3 = RRT(env, start, end)
+    path3, cost = pathFinder3.findPath(10000)
+    print(path3, cost)
+    env.showPath([path3])
     #env.showPath(path)
     #env.showPath(path2)
