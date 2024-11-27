@@ -1,5 +1,6 @@
 from Envrionment import ContiEnvironment
 import random as R
+import time
 
 class Node():
     def __init__(self, pos):
@@ -14,6 +15,7 @@ class RRT():
         self.start = Node(start)
         self.end = Node(end)
         self.T = []
+        self.algoName = "RRT"
 
 
     def getRandomPoint(self):
@@ -62,6 +64,7 @@ class RRT():
         return path[::-1]
 
     def findPath(self, n):
+        time_start = time.time()
         self.T.append(self.start)
         path = []
         cnt = 0
@@ -85,7 +88,8 @@ class RRT():
         if len(path) == 0:
             print("path not found.")
             return [self.start.pos], -1
-        return path, cnt
+        time_end = time.time()
+        return path, cnt, time_end - time_start
 
 class RRTP():
     def __init__(self, env, start, end, p):
@@ -94,6 +98,7 @@ class RRTP():
         self.end = Node(end)
         self.p = p
         self.T = []
+        self.algoName = "RRTP"
 
 
     def getRandomPoint(self):
@@ -145,6 +150,7 @@ class RRTP():
         return path[::-1]
 
     def findPath(self, n):
+        time_start = time.time()
         self.T.append(self.start)
         path = []
         cnt = 0
@@ -168,7 +174,8 @@ class RRTP():
         if len(path) == 0:
             print("path not found.")
             return [self.start.pos], -1
-        return path, cnt
+        time_end = time.time()
+        return path, cnt, time_end - time_start
 
 class RRTPSmart():
     def __init__(self, env, start, end, p):
@@ -177,6 +184,7 @@ class RRTPSmart():
         self.end = Node(end)
         self.p = p
         self.T = []
+        self.algoName = "RRTPSmart"
 
 
     def getRandomPoint(self):
@@ -220,7 +228,7 @@ class RRTPSmart():
         path = [cur.pos]
         nxt = self.T[cur.pre]
         while nxt.pre != nxt.pos:
-            if env.isNoCollision(cur.pos, self.T[nxt.pre].pos):
+            if self.env.isNoCollision(cur.pos, self.T[nxt.pre].pos):
                 nxt = self.T[nxt.pre]
             else:
                 path.append(nxt.pos)
@@ -238,6 +246,7 @@ class RRTPSmart():
         return path[::-1]
 
     def findPath(self, n):
+        time_start = time.time()
         self.T.append(self.start)
         path = []
         cnt = 0
@@ -263,22 +272,29 @@ class RRTPSmart():
         if len(path) == 0:
             print("path not found.")
             return [self.start.pos], -1
-        return path, pathTra, cnt
+        time_end = time.time()
+        return path, cnt, time_end - time_start
 
 if __name__ == "__main__":
-    width = 100
-    height = 100
-    start = (1, 1)
-    end = (99, 99)
-    env = ContiEnvironment(width, height)
-    for i in range(10):
-        lb = (R.random() * 70, R.random() * 70)
-        rt = (lb[0] + R.random() * 25, lb[1] + R.random() * 25)
-        env.addRect(lb, rt)
-
-    pathFinder3 = RRT(env, start, end)
-    path3, cost = pathFinder3.findPath(10000)
-    print(path3, cost)
-    env.showPath([path3])
-    #env.showPath(path)
-    #env.showPath(path2)
+    pass
+    # width = 100
+    # height = 100
+    # start = (1, 1)
+    # end = (99, 99)
+    # env = ContiEnvironment(width, height)
+    # for i in range(10):
+    #     lb = (R.random() * 70, R.random() * 70)
+    #     rt = (lb[0] + R.random() * 25, lb[1] + R.random() * 25)
+    #     env.addRect(lb, rt)
+    #
+    # pathFinder1 = RRT(env, start, end)
+    # path1, cost1, timecost1 = pathFinder1.findPath(10000)
+    #
+    # pathFinder2 = RRTP(env, start, end, p=0.3)
+    # path2, cost2, timecost2 = pathFinder2.findPath(10000)
+    #
+    # pathFinder3 = RRTPSmart(env, start, end, p=0.3)
+    # path3, cost3, cnt3, timecost3 = pathFinder3.findPath(10000)
+    #
+    # print(env.pathLength(path1), env.pathLength(path2), env.pathLength(path3))
+    # print(timecost1, timecost2, timecost3)

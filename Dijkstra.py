@@ -72,10 +72,10 @@ class Dijkstra:
 
 
 def main():
-    mymap = Envrionment.envOne()
+    mymap = Envrionment.smallDiscreateEnv()
     mymap.showenv()
     print()
-    model = Dijkstra((0, 0), (9, 9), mymap)
+    model = Dijkstra((0, 0), (99, 99), mymap)
     model.run()
     mymap.showenv()
 
