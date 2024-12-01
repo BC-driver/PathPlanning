@@ -92,7 +92,7 @@ class RRT():
         return path, cnt, time_end - time_start
 
 class RRTP():
-    def __init__(self, env, start, end, p):
+    def __init__(self, env, start, end, p=0.3):
         self.env = env
         self.start = Node(start)
         self.end = Node(end)
@@ -178,7 +178,7 @@ class RRTP():
         return path, cnt, time_end - time_start
 
 class RRTPSmart():
-    def __init__(self, env, start, end, p):
+    def __init__(self, env, start, end, p=0.3):
         self.env = env
         self.start = Node(start)
         self.end = Node(end)
@@ -276,25 +276,26 @@ class RRTPSmart():
         return path, cnt, time_end - time_start
 
 if __name__ == "__main__":
-    pass
-    # width = 100
-    # height = 100
-    # start = (1, 1)
-    # end = (99, 99)
-    # env = ContiEnvironment(width, height)
-    # for i in range(10):
-    #     lb = (R.random() * 70, R.random() * 70)
-    #     rt = (lb[0] + R.random() * 25, lb[1] + R.random() * 25)
-    #     env.addRect(lb, rt)
-    #
-    # pathFinder1 = RRT(env, start, end)
-    # path1, cost1, timecost1 = pathFinder1.findPath(10000)
-    #
-    # pathFinder2 = RRTP(env, start, end, p=0.3)
-    # path2, cost2, timecost2 = pathFinder2.findPath(10000)
-    #
-    # pathFinder3 = RRTPSmart(env, start, end, p=0.3)
-    # path3, cost3, cnt3, timecost3 = pathFinder3.findPath(10000)
-    #
-    # print(env.pathLength(path1), env.pathLength(path2), env.pathLength(path3))
-    # print(timecost1, timecost2, timecost3)
+    width = 100
+    height = 100
+    start = (1, 1)
+    end = (99, 99)
+    env = ContiEnvironment(width, height)
+    for i in range(10):
+        lb = (R.random() * 70, R.random() * 70)
+        rt = (lb[0] + R.random() * 25, lb[1] + R.random() * 25)
+        env.addRect(lb, rt)
+
+    pathFinder1 = RRT(env, start, end)
+    path1, cost1, timecost1 = pathFinder1.findPath(10000)
+
+    pathFinder2 = RRTP(env, start, end)
+    path2, cost2, timecost2 = pathFinder2.findPath(10000)
+
+    pathFinder3 = RRTPSmart(env, start, end)
+    path3, cost3, timecost3 = pathFinder3.findPath(10000)
+
+    print(env.pathLength(path1), env.pathLength(path2), env.pathLength(path3))
+    print(timecost1, timecost2, timecost3)
+
+    env.showPath([path3])

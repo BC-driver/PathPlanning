@@ -204,5 +204,5 @@ def bigContiEnv():
     return res
 
 if __name__ == "__main__":
-    env = bigDiscreateEnv()
+    env = bigContiEnv()
     env.showPath([])
